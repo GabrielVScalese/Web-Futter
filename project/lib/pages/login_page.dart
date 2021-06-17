@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -93,7 +94,10 @@ class _LoginPageState extends State<LoginPage> {
                 height: 40,
                 margin: EdgeInsets.only(top: 50),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  },
                   child: Text(
                     'LOGIN',
                     style: TextStyle(fontSize: 13),
