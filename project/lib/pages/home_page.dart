@@ -13,11 +13,12 @@ class _HomePageState extends State<HomePage> {
   List<charts.Series<Investment, String>> _investments;
   List<charts.Series<Gain, String>> _gains;
 
-  List<Coin> coins = [
-    Coin('Dollar', 15),
-    Coin('Pound', 20),
-    Coin('Libra', 5),
-    Coin('Real', 40)
+  List<Action> principalActions = [
+    Action('ABC BRASIL PN', 1.26),
+    Action('AMBEV ON', 0.9),
+    Action('B3 ON', 1.22),
+    Action('AZUL PN', 1.94),
+    Action('BANRISUL PNB', 1.13)
   ];
 
   getMonth(int number) {
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   _generateData() {
     var investmentsData = [
       new Investment('Bank', 16),
-      new Investment('Property', 34),
+      new Investment('Properties', 34),
       new Investment('Actions', 50)
     ];
 
@@ -127,12 +128,13 @@ class _HomePageState extends State<HomePage> {
           style: GoogleFonts.inter(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 70, top: 10),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              // margin: EdgeInsets.only(left: 70, top: 10),
               width: 400,
               height: 400,
               child: charts.PieChart(
@@ -151,48 +153,61 @@ class _HomePageState extends State<HomePage> {
                 animationDuration: Duration(seconds: 2),
               ),
             ),
-            VerticalDivider(
-              indent: 50,
-              endIndent: 50,
+          ),
+          VerticalDivider(
+            indent: 50,
+            endIndent: 50,
+          ),
+          Container(
+            padding: EdgeInsets.only(right: 30, left: 30),
+            height: 400,
+            width: 400,
+            child: ListView.builder(
+                itemCount: principalActions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 50,
+                    child: Card(
+                        elevation: 10,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                child: Text(principalActions[index].name)),
+                            Container(
+                                margin: EdgeInsets.only(right: 20),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Icon(Icons.timeline),
+                                    ),
+                                    Text(
+                                        '${principalActions[index].variation}%'),
+                                  ],
+                                )),
+                          ],
+                        )),
+                    margin: EdgeInsets.only(bottom: 30),
+                  );
+                }),
+          ),
+          VerticalDivider(
+            indent: 50,
+            endIndent: 50,
+          ),
+          Container(
+            width: 400,
+            height: 400,
+            padding: EdgeInsets.only(left: 30),
+            child: charts.BarChart(
+              _gains,
+              animate: true,
+              animationDuration: Duration(seconds: 2),
             ),
-            Container(
-              padding: EdgeInsets.only(right: 30, left: 30),
-              height: 400,
-              width: 400,
-              child: ListView.builder(
-                  itemCount: coins.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: 50,
-                      child: Card(
-                          elevation: 10,
-                          child: Row(
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.only(left: 10, right: 20),
-                                  child: Text(coins[index].name)),
-                            ],
-                          )),
-                      margin: EdgeInsets.only(bottom: 30),
-                    );
-                  }),
-            ),
-            VerticalDivider(
-              indent: 50,
-              endIndent: 50,
-            ),
-            Container(
-              width: 400,
-              height: 400,
-              padding: EdgeInsets.only(left: 30),
-              child: charts.BarChart(
-                _gains,
-                animate: true,
-                animationDuration: Duration(seconds: 2),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -203,6 +218,13 @@ class Investment {
   int value;
 
   Investment(this.type, this.value);
+}
+
+class Action {
+  String name;
+  double variation;
+
+  Action(this.name, this.variation);
 }
 
 class Coin {
