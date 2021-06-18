@@ -10,7 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<charts.Series<Investment, String>> _seriesData;
+  List<charts.Series<Investment, String>> _investments;
+  List<charts.Series<Gain, String>> _gains;
 
   List<Coin> coins = [
     Coin('Dollar', 15),
@@ -19,18 +20,39 @@ class _HomePageState extends State<HomePage> {
     Coin('Real', 40)
   ];
 
+  getMonth(int number) {
+    var months = ['January', 'February', 'March', 'April'];
+
+    return months[number - 1];
+  }
+
   _generateData() {
-    var data = [
+    var investmentsData = [
       new Investment('Bank', 16),
-      new Investment('Property', 23),
-      new Investment('Action', 50)
+      new Investment('Property', 34),
+      new Investment('Actions', 50)
     ];
 
-    _seriesData.add(charts.Series<Investment, String>(
-      id: 'Linear Sales',
+    _investments.add(charts.Series<Investment, String>(
+      id: 'Investments',
       domainFn: (Investment sales, _) => sales.type,
       measureFn: (Investment sales, _) => sales.value,
-      data: data,
+      data: investmentsData,
+      fillPatternFn: (_, __) => charts.FillPatternType.solid,
+    ));
+
+    var gainsData = [
+      Gain(DateTime(2021, 1), 100000),
+      Gain(DateTime(2021, 2), 110000),
+      Gain(DateTime(2021, 3), 120000),
+      Gain(DateTime(2021, 4), 130000),
+    ];
+
+    _gains.add(charts.Series<Gain, String>(
+      id: 'Gains',
+      domainFn: (Gain gains, _) => getMonth(gains.dt.month),
+      measureFn: (Gain gains, _) => gains.value,
+      data: gainsData,
       fillPatternFn: (_, __) => charts.FillPatternType.solid,
     ));
   }
@@ -39,7 +61,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // ignore: deprecated_member_use
-    _seriesData = List<charts.Series<Investment, String>>();
+    _investments = List<charts.Series<Investment, String>>();
+    // ignore: deprecated_member_use
+    _gains = List<charts.Series<Gain, String>>();
     _generateData();
   }
 
@@ -112,17 +136,15 @@ class _HomePageState extends State<HomePage> {
               width: 400,
               height: 400,
               child: charts.PieChart(
-                _seriesData,
+                _investments,
                 animate: true,
                 behaviors: [
                   new charts.DatumLegend(
                     showMeasures: true,
                     legendDefaultMeasure:
                         charts.LegendDefaultMeasure.firstValue,
-                    // Optionally provide a measure formatter to format the measure value.
-                    // If none is specified the value is formatted as a decimal.
                     measureFormatter: (num value) {
-                      return value == null ? '-' : '${value}%';
+                      return value == null ? '-' : '$value%';
                     },
                   )
                 ],
@@ -134,8 +156,7 @@ class _HomePageState extends State<HomePage> {
               endIndent: 50,
             ),
             Container(
-              padding: EdgeInsets.only(right: 30),
-              margin: EdgeInsets.only(left: 30),
+              padding: EdgeInsets.only(right: 30, left: 30),
               height: 400,
               width: 400,
               child: ListView.builder(
@@ -160,6 +181,16 @@ class _HomePageState extends State<HomePage> {
               indent: 50,
               endIndent: 50,
             ),
+            Container(
+              width: 400,
+              height: 400,
+              padding: EdgeInsets.only(left: 30),
+              child: charts.BarChart(
+                _gains,
+                animate: true,
+                animationDuration: Duration(seconds: 2),
+              ),
+            )
           ],
         ),
       ),
@@ -179,4 +210,11 @@ class Coin {
   int appreciation;
 
   Coin(this.name, this.appreciation);
+}
+
+class Gain {
+  DateTime dt;
+  int value;
+
+  Gain(this.dt, this.value);
 }
