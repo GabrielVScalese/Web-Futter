@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/pages/home_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,11 +19,12 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.only(right: 300),
+                padding: EdgeInsets.only(right: 320),
                 margin: EdgeInsets.only(top: 50),
                 child: Text(
                   'Hello.',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                  style: GoogleFonts.inter(
+                      fontWeight: FontWeight.bold, fontSize: 40),
                 ),
               ),
             ),
@@ -32,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
                   'Welcome back.',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                  style: GoogleFonts.inter(
+                      fontWeight: FontWeight.bold, fontSize: 40),
                 ),
               ),
             ),
@@ -42,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.center,
                 width: 400,
                 child: TextField(
-                  style: TextStyle(fontSize: 12),
+                  style: GoogleFonts.inter(fontSize: 12),
                   decoration: InputDecoration(
                       labelText: 'Username',
                       labelStyle: TextStyle(fontSize: 15),
@@ -59,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(top: 50),
                 width: 400,
                 child: TextField(
-                  style: TextStyle(fontSize: 12),
+                  style: GoogleFonts.inter(fontSize: 12),
                   obscureText: isObscure,
                   decoration: InputDecoration(
                       labelText: 'Password',
@@ -82,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 child: Text(
                   'Forgot Password?',
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                       fontSize: 11, color: Color.fromRGBO(128, 128, 128, 1)),
                 ),
                 padding: EdgeInsets.only(top: 20, left: 310),
@@ -100,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(
                     'LOGIN',
-                    style: TextStyle(fontSize: 13),
+                    style: GoogleFonts.inter(fontSize: 13),
                   ),
                 ),
               ),
@@ -109,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 child: Text(
                   'Create account',
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                       fontSize: 15, color: Color.fromRGBO(128, 128, 128, 1)),
                 ),
                 padding: EdgeInsets.only(top: 50),
